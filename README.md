@@ -46,3 +46,73 @@ backend/
     flask run --debug
     ```
 6. Test the endpoints specified in the `api/example.py` file.
+
+## Initial Setup 🔨
+
+### (Optional) Python Version Management with pyenv
+
+If you don't have pyenv installed, you can install it from: https://github.com/pyenv/pyenv#installation
+
+#### Basic pyenv Commands
+
+- **List all available Python versions**:
+  ```bash
+  pyenv install --list
+  ```
+
+- **Install a specific Python version**:
+  ```bash
+  pyenv install 3.11.0
+  ```
+
+- **List installed Python versions**:
+  ```bash
+  pyenv versions
+  ```
+
+- **Set Python version for current directory or globally** 
+  ```bash
+  pyenv local 3.12.0 # creates .python-version file
+  pyenv global 3.12.0
+  ```
+
+- **Show currently active Python version and the executable path**:
+  ```bash
+  pyenv version
+  pyenv which python
+  ```
+
+- **Show which Python executable is being used**:
+  ```bash
+  which python
+  python --version
+  ```
+
+### Creating Virtual Environment
+
+After selecting your Python version with pyenv, create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+or using direct python path:
+```bash
+/Users/username/.pyenv/versions/3.12.0/bin/python -m venv .venv
+```
+
+### Activating and Deactivating Virtual Environment
+
+- **Activate the virtual environment**:
+  ```bash
+  source .venv/bin/activate
+  ```
+
+- **Deactivate the virtual environment** (when you're done working):
+  ```bash
+  deactivate
+  ```
+
+After activating the virtual environment, install dependencies:
+```bash
+pip install -r requirements.txt
+```
