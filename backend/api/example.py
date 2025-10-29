@@ -7,16 +7,16 @@ bp = Blueprint('/', __name__, url_prefix='')
 
 @bp.route('/', methods=('GET', 'POST'))
 def example():
-    return jsonify({
+    return {
         'message': 'Hello, World!',
-    })
+    }, HTTPStatus.OK
 
 
 @bp.route('/config', methods=('GET', 'POST'))
 def config():
-    return jsonify({
+    return {
         'config': CONFIG._asdict()
-    }, HTTPStatus.OK)
+    }, HTTPStatus.OK
 
 
 """
@@ -27,29 +27,30 @@ curl -X POST \
 -d '{"name": "John Doe", "email": "john.doe@example.com"}' \
 http://localhost:5001/users
 """
-@bp.route('/users', methods=('GET', 'POST'))
-def users():
-    if request.method == 'GET': 
-        users = User.query.all()
-        return [
-            {
-                'id': user.id,
-                'name': user.name,
-                'email': user.email,
-            }
-            for user in users
-        ], HTTPStatus.OK
-
-    elif request.method == 'POST':
-        data = request.get_json()        
-        user = User(name=data['name'], email=data['email'])
-
-        db.session.add(user)
-        db.session.commit()
-        
-        return {
+@bp.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return [
+        {
             'id': user.id,
             'name': user.name,
             'email': user.email,
-        }, HTTPStatus.CREATED
+        }
+        for user in users
+    ], HTTPStatus.OK
+
+
+@bp.route('/users', methods=['POST'])
+def create_user(): 
+    data = request.get_json()        
+    user = User(name=data['name'], email=data['email'])
+
+    db.session.add(user)
+    db.session.commit()
+    
+    return {
+        'id': user.id,
+        'name': user.name,
+        'email': user.email,
+    }, HTTPStatus.CREATED
 
